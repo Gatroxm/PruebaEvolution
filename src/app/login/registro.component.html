@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 my-5 text-center">
+            <h1>App de Tareas - Registro</h1>
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Registrate en la plataforma</h5>
+                    <form [formGroup]="formaRegister">
+                        <div class="form-group">
+                          <label for="name">Nombre</label>
+                          <input type="text" id="name" formControlName="nombre" class="form-control" placeholder="Nombre">
+                        </div>
+                        <div class="form-group">
+                          <label for="email">Correo</label>
+                          <input type="email" id="email" formControlName="correo" class="form-control" placeholder="Correo eletrónico">
+                        </div>
+                        <div class="form-group">
+                          <label for="password">Contraseña</label>
+                          <input type="password" id="password" formControlName="password" class="form-control" placeholder="Contraseña">
+                        </div>
+                        <div class="form-group">
+                          <label for="Repeat-password">Repetir Contraseña</label>
+                          <input type="password" id="Repeat-password" formControlName="password2" class="form-control" placeholder="Repetir Contraseña">
+                        </div>
+                        <div class="form-group">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-success" (click)="guardarUser();">Registrar</button>
+                                <button [routerLink]="['../login']" type="button" class="btn btn-primary">Ya tengo una Cuenta</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

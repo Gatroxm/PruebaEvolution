@@ -1,0 +1,154 @@
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-5">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 col-lg-10">
+                            <h1>Listado De tareas</h1>
+                        </div>
+                        <div class="col-12 col-lg-2">
+                            <button class="btn btn-success my-2 btn-block" id="create" type="button" data-toggle="modal" data-target="#createtask">Crear tarea</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <h6>Pendientes</h6>
+            <table class="table table-borderd">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Prioridad</th>
+                        <th>Fecha Vencimiento</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tarea of tasks; let i = index;">
+                        <td>{{ i+1 }}</td>
+                        <td>{{tarea.nombre}}</td>
+                        <td>{{ tarea.prioridad }}</td>
+                        <td> {{tarea.fechaVncimiento | date}}</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-outline-warning" type="button" data-toggle="modal" data-target="#Edittask" (click)="edit(tarea._id)">Edit</button>
+                                <button type="button" class="btn btn-outline-danger" (click)="delete(tarea._id)">Eliminar</button>
+                              </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <h6>Completadas</h6>
+            <table class="table table-borderd">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Prioridad</th>
+                        <th>Fecha Vencimiento</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tarea of tasksComplited; let i = index;">
+                        <td>{{ i+1 }}</td>
+                        <td>{{tarea.nombre}}</td>
+                        <td>{{ tarea.prioridad }}</td>
+                        <td> {{tarea.fechaVncimiento | date}}</td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-outline-warning" type="button" data-toggle="modal" data-target="#Edittask" (click)="edit(tarea._id)">Edit</button>
+                                <button type="button" class="btn btn-outline-danger" (click)="delete(tarea._id)">Eliminar</button>
+                              </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="createtask" tabindex="-1" aria-labelledby="createtaskLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createtaskLabel">Crear tarea</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="formaTareas">
+                    <div class="form-group">
+                      <label for="nombre">Nombre</label>
+                      <input type="text" id="nombre" formControlName="nombre" class="form-control" placeholder="Nombre Tarea">
+                    </div>
+                    <div class="form-group">
+                      <label for="fechaVncimiento">Fecha de Vencimiento</label>
+                      <input type="date" id="fechaVncimiento" class="form-control" formControlName="fechaVncimiento" placeholder="Fecha Vencimiento" aria-describedby="helpId">
+                    </div>
+                    <div class="form-group">
+                      <label for="prioridad">Prioridad</label>
+                      <select formControlName="prioridad" id="prioridad" class="form-control">
+                          <option> Seleccione una prioridad</option>
+                          <option *ngFor="let prioridad of prioridades" value="{{prioridad}}">{{prioridad}}</option>
+                      </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="close-create" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="guardarTarea();">Guardar Tarea</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="Edittask" tabindex="-1" aria-labelledby="EdittaskLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EdittaskLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                      <label for="nombre">Nombre</label>
+                      <input type="text" id="nombre" name="nombre" [(ngModel)]="task.nombre" class="form-control" placeholder="Nombre Tarea">
+                    </div>
+                    <div class="form-group">
+                      <label for="fechaVncimiento">Fecha de Vencimiento</label>
+                      <input type="date" id="fechaVncimiento" name="fechaVncimiento"class="form-control" [(ngModel)]="task.fechaVncimiento" placeholder="Fecha Vencimiento" aria-describedby="helpId">
+                    </div>
+                    <div class="form-group">
+                      <label for="prioridad">Prioridad</label>
+                      <select [(ngModel)]="task.prioridad" id="prioridad" name="prioridad" class="form-control" >
+                          <option> Seleccione una prioridad</option>
+                          <option *ngFor="let prioridad of prioridades" value="{{prioridad}}" [selected]="task?.task">{{prioridad}}</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label" for="defaultCheck1">
+                                <input class="form-check-input" type="checkbox" name="completada" [(ngModel)]="task.completada" id="defaultCheck1"> Completar Tarea {{task.nombre}}
+                            </label>
+                          </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-edit">Close</button>
+                <button type="button" class="btn btn-primary" (click)="editarTarea()">Editar {{task.nombre}}</button>
+            </div>
+        </div>
+    </div>
+</div>
